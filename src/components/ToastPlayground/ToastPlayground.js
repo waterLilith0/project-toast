@@ -3,16 +3,23 @@ import React from 'react';
 import Button from '../Button';
 
 import styles from './ToastPlayground.module.css';
+import Toast from '../Toast/Toast';
+
 
 const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
 
 function ToastPlayground() {
+  const [input, setInput] = React.useState("");
+  const [variant, setVariant] = React.useState("notice");
+
   return (
     <div className={styles.wrapper}>
       <header>
         <img alt="Cute toast mascot" src="/toast.png" />
         <h1>Toast Playground</h1>
       </header>
+
+      <Toast></Toast>
 
       <div className={styles.controlsWrapper}>
         <div className={styles.row}>
@@ -24,7 +31,7 @@ function ToastPlayground() {
             Message
           </label>
           <div className={styles.inputWrapper}>
-            <textarea id="message" className={styles.messageInput} />
+            <textarea id="message" value={input} onChange={(event) => setInput(event.target.value)} className={styles.messageInput} />
           </div>
         </div>
 
@@ -32,18 +39,25 @@ function ToastPlayground() {
           <div className={styles.label}>Variant</div>
           <div
             className={`${styles.inputWrapper} ${styles.radioWrapper}`}
+            value={variant}
           >
-            <label htmlFor="variant-notice">
+            {VARIANT_OPTIONS.map((name) => {
+              return (
+                <label htmlFor="variant-notice">
               <input
-                id="variant-notice"
+                id={`variant-${name}`}
                 type="radio"
                 name="variant"
-                value="notice"
+                key={name}
+                onChange={option => {
+                  setVariant(name)
+                }}
+                checked={variant === name}
               />
-              notice
+              {name}
             </label>
-
-            {/* TODO Other Variant radio buttons here */}
+              )
+            })}
           </div>
         </div>
 
