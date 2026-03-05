@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 import {
   AlertOctagon,
   AlertTriangle,
   CheckCircle,
   Info,
   X,
-} from 'react-feather';
+} from "react-feather";
 
-import VisuallyHidden from '../VisuallyHidden';
-
-import styles from './Toast.module.css';
+import VisuallyHidden from "../VisuallyHidden";
+import { EnableContext } from "../ToastPlayground";
+import styles from "./Toast.module.css";
 
 const ICONS_BY_VARIANT = {
   notice: Info,
@@ -18,16 +18,39 @@ const ICONS_BY_VARIANT = {
   error: AlertOctagon,
 };
 
-function Toast() {
+function Toast({ variant, children }) {
+  const [type, setType] = React.useState("");
+  const { enabled, setEnabled } = React.useContext(EnableContext);
+  const Icon = ICONS_BY_VARIANT[variant];
+
+  function determineType() {
+    if (variant === "notice") {
+      setType(styles.notice);
+    }
+    if (variant === "warning") {
+      setType(styles.warning);
+    }
+    if (variant === "success") {
+      setType(styles.success);
+    }
+    if (variant === "error") {
+      setType(styles.error);
+    }
+  }
+
+  React.useEffect(() => {
+    if (variant) {
+      determineType();
+    }
+  }, [variant]);
+
   return (
-    <div className={`${styles.toast} ${styles.notice}`}>
+    <div className={`${styles.toast} ${type}`}>
       <div className={styles.iconContainer}>
-        <Info size={24} />
+        <Icon size={24} />
       </div>
-      <p className={styles.content}>
-        16 photos have been uploaded
-      </p>
-      <button className={styles.closeButton}>
+      <p className={styles.content}>{children}</p>
+      <button className={styles.closeButton} onClick={() => setEnabled(false)}>
         <X size={24} />
         <VisuallyHidden>Dismiss message</VisuallyHidden>
       </button>
