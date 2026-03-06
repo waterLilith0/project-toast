@@ -8,7 +8,7 @@ import {
 } from "react-feather";
 
 import VisuallyHidden from "../VisuallyHidden";
-import { EnableContext } from "../ToastPlayground";
+import { StackContext } from "../ToastPlayground";
 import styles from "./Toast.module.css";
 
 const ICONS_BY_VARIANT = {
@@ -20,7 +20,7 @@ const ICONS_BY_VARIANT = {
 
 function Toast({ variant, children }) {
   const [type, setType] = React.useState("");
-  const { enabled, setEnabled } = React.useContext(EnableContext);
+  const { stack, setStack } = React.useContext(StackContext);
   const Icon = ICONS_BY_VARIANT[variant];
 
   function determineType() {
@@ -50,7 +50,7 @@ function Toast({ variant, children }) {
         <Icon size={24} />
       </div>
       <p className={styles.content}>{children}</p>
-      <button className={styles.closeButton} onClick={() => setEnabled(false)}>
+      <button className={styles.closeButton} onClick={() => {}}>
         <X size={24} />
         <VisuallyHidden>Dismiss message</VisuallyHidden>
       </button>

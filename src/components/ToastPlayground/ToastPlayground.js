@@ -7,15 +7,15 @@ import Toast from "../Toast/Toast";
 import ToastShelf from "../ToastShelf/ToastShelf";
 
 const VARIANT_OPTIONS = ["notice", "warning", "success", "error"];
-export const EnableContext = React.createContext();
+export const StackContext = React.createContext();
 
 function ToastPlayground() {
   const [input, setInput] = React.useState("");
   const [variant, setVariant] = React.useState("notice");
-  const [enabled, setEnabled] = React.useState(false);
+  const [stack, setStack] = React.useState([<></>, <></>]);
 
   return (
-    <EnableContext value={{ enabled, setEnabled }}>
+    <StackContext value={{ stack, setStack }}>
       <div className={styles.wrapper}>
         <header>
           <img alt="Cute toast mascot" src="/toast.png" />
@@ -23,7 +23,9 @@ function ToastPlayground() {
         </header>
 
         {/* {enabled && <Toast variant={variant} setEnabled={setEnabled}></Toast>} */}
-        <ToastShelf>Test</ToastShelf>
+        <ToastShelf stack={stack} setStack={setStack}>
+          Test
+        </ToastShelf>
 
         <div className={styles.controlsWrapper}>
           <div className={styles.row}>
@@ -81,7 +83,7 @@ function ToastPlayground() {
           </div>
         </div>
       </div>
-    </EnableContext>
+    </StackContext>
   );
 }
 

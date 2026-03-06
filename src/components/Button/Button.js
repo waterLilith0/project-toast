@@ -1,14 +1,16 @@
 import React from "react";
 
 import styles from "./Button.module.css";
-import { EnableContext } from "../ToastPlayground";
+import { StackContext } from "../ToastPlayground";
 
 function Button({ className = "", ...delegated }) {
-  const { enabled, setEnabled } = React.use(EnableContext);
-
+  const { stack, setStack } = React.use(StackContext);
+  console.log(stack);
   return (
     <button
-      onClick={() => {setEnabled(true)}}
+      onClick={() => {
+        setStack();
+      }}
       className={`${styles.button} ${className}`}
       {...delegated}
     />
