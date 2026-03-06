@@ -19,28 +19,23 @@ const ICONS_BY_VARIANT = {
 };
 
 function Toast({ variant, children }) {
-  const [type, setType] = React.useState("");
-  const { stack, setStack } = React.useContext(StackContext);
+  const [type, setType] = React.useState("notice");
   const Icon = ICONS_BY_VARIANT[variant];
-
-  function determineType() {
-    if (variant === "notice") {
-      setType(styles.notice);
-    }
-    if (variant === "warning") {
-      setType(styles.warning);
-    }
-    if (variant === "success") {
-      setType(styles.success);
-    }
-    if (variant === "error") {
-      setType(styles.error);
-    }
-  }
 
   React.useEffect(() => {
     if (variant) {
-      determineType();
+      if (variant === "notice") {
+        setType(styles.notice);
+      }
+      if (variant === "warning") {
+        setType(styles.warning);
+      }
+      if (variant === "success") {
+        setType(styles.success);
+      }
+      if (variant === "error") {
+        setType(styles.error);
+      }
     }
   }, [variant]);
 

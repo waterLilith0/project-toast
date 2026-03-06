@@ -4,12 +4,12 @@ import styles from "./Button.module.css";
 import { StackContext } from "../ToastPlayground";
 
 function Button({ className = "", ...delegated }) {
-  const { stack, setStack } = React.use(StackContext);
+  const { stack, push, createElement, variant } = React.use(StackContext);
   console.log(stack);
   return (
     <button
       onClick={() => {
-        setStack();
+        push(createElement({ variant: variant, children: "This is a test" }));
       }}
       className={`${styles.button} ${className}`}
       {...delegated}

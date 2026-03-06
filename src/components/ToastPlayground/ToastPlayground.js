@@ -12,10 +12,32 @@ export const StackContext = React.createContext();
 function ToastPlayground() {
   const [input, setInput] = React.useState("");
   const [variant, setVariant] = React.useState("notice");
-  const [stack, setStack] = React.useState([<></>, <></>]);
+  const [stack, setStack] = React.useState([]);
+
+  const push = React.useCallback(
+    (element) => {
+      setStack([...stack, element]);
+    },
+    [stack],
+  );
+
+  const pop = React.useCallback(() => {
+    const element = stack[stack.length];
+    return element;
+  }, [stack]);
+
+  function createElement({ variant, children }) {
+    return (
+      <li className={styles.toastWrapper} key={crypto.randomUUID()}>
+        <Toast variant="notice">{children}</Toast>
+      </li>
+    );
+  }
 
   return (
-    <StackContext value={{ stack, setStack }}>
+    <StackContext
+      value={{ stack, variant, setStack, push, pop, createElement }}
+    >
       <div className={styles.wrapper}>
         <header>
           <img alt="Cute toast mascot" src="/toast.png" />
