@@ -16,20 +16,39 @@ function ToastPlayground() {
 
   const push = React.useCallback(
     (element) => {
-      setStack([...stack, element]);
+      stack ? setStack([...stack, element]) : setStack([element]);
     },
     [stack],
   );
 
-  const pop = React.useCallback(() => {
-    const element = stack[stack.length];
-    return element;
-  }, [stack]);
+  const pop = React.useCallback(
+    (id) => {
+      let tempStack;
+      [...stack].forEach((element) => {
+        if (
+          tempStack === undefined &&
+          element.key === id &&
+          !(stack.length > 1)
+        ) {
+          return;
+        }
+        if (tempStack === undefined && element.key !== id) {
+          tempStack = [element];
+        } else if (tempStack !== undefined && element.key !== id) {
+          tempStack = [...tempStack, element];
+        }
+      });
+      setStack(tempStack);
+      tempStack = [];
+    },
+    [stack],
+  );
 
-  function createElement({ variant, children }) {
+  function createElement({ variant }) {
+    const id = crypto.randomUUID();
     return (
-      <li className={styles.toastWrapper} key={crypto.randomUUID()}>
-        <Toast variant="notice">{children}</Toast>
+      <li className={styles.toastWrapper} key={id} id={id}>
+        <Toast variant={variant}>{input}</Toast>
       </li>
     );
   }
@@ -44,7 +63,6 @@ function ToastPlayground() {
           <h1>Toast Playground</h1>
         </header>
 
-        {/* {enabled && <Toast variant={variant} setEnabled={setEnabled}></Toast>} */}
         <ToastShelf stack={stack} setStack={setStack}>
           Test
         </ToastShelf>
@@ -100,7 +118,9 @@ function ToastPlayground() {
           <div className={styles.row}>
             <div className={styles.label} />
             <div className={`${styles.inputWrapper} ${styles.radioWrapper}`}>
-              <Button>Pop Toast!</Button>
+              <Button setInput={setInput} setVariant={setVariant}>
+                Pop Toast!
+              </Button>
             </div>
           </div>
         </div>

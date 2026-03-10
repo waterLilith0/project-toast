@@ -3,13 +3,14 @@ import React from "react";
 import styles from "./Button.module.css";
 import { StackContext } from "../ToastPlayground";
 
-function Button({ className = "", ...delegated }) {
-  const { stack, push, createElement, variant } = React.use(StackContext);
-  console.log(stack);
+function Button({ className = "", setInput, setVariant, ...delegated }) {
+  const { push, createElement, variant } = React.useContext(StackContext);
   return (
     <button
       onClick={() => {
-        push(createElement({ variant: variant, children: "This is a test" }));
+        push(createElement({ variant: variant }));
+        setInput("");
+        setVariant("notice");
       }}
       className={`${styles.button} ${className}`}
       {...delegated}

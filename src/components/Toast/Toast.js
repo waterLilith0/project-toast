@@ -21,6 +21,7 @@ const ICONS_BY_VARIANT = {
 function Toast({ variant, children }) {
   const [type, setType] = React.useState("notice");
   const Icon = ICONS_BY_VARIANT[variant];
+  const { pop } = React.useContext(StackContext);
 
   React.useEffect(() => {
     if (variant) {
@@ -45,7 +46,12 @@ function Toast({ variant, children }) {
         <Icon size={24} />
       </div>
       <p className={styles.content}>{children}</p>
-      <button className={styles.closeButton} onClick={() => {}}>
+      <button
+        className={styles.closeButton}
+        onClick={(event) => {
+          pop(event.target.closest("li").id);
+        }}
+      >
         <X size={24} />
         <VisuallyHidden>Dismiss message</VisuallyHidden>
       </button>
