@@ -8,7 +8,7 @@ import {
 } from "react-feather";
 
 import VisuallyHidden from "../VisuallyHidden";
-import { StackContext } from "../ToastPlayground";
+import { ToastContext } from "../ToastProvider/ToastProvider";
 import styles from "./Toast.module.css";
 
 const ICONS_BY_VARIANT = {
@@ -21,7 +21,7 @@ const ICONS_BY_VARIANT = {
 function Toast({ variant, children }) {
   const [type, setType] = React.useState("notice");
   const Icon = ICONS_BY_VARIANT[variant];
-  const { pop } = React.useContext(StackContext);
+  const { pop } = React.useContext(ToastContext);
 
   React.useEffect(() => {
     if (variant) {
@@ -52,7 +52,7 @@ function Toast({ variant, children }) {
           pop(event.target.closest("li").id);
         }}
       >
-        <X size={24} />
+        <X size={24} aria-label="Dismiss message" aria-live="off" />
         <VisuallyHidden>Dismiss message</VisuallyHidden>
       </button>
     </div>

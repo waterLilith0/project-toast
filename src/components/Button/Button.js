@@ -1,10 +1,11 @@
 import React from "react";
 
 import styles from "./Button.module.css";
-import { StackContext } from "../ToastPlayground";
+import { ToastContext } from "../ToastProvider/ToastProvider";
 
-function Button({ className = "", setInput, setVariant, ...delegated }) {
-  const { push, createElement, variant } = React.useContext(StackContext);
+function Button({ className = "", ...delegated }) {
+  const { push, createElement, variant, setInput, setVariant } =
+    React.useContext(ToastContext);
   return (
     <button
       onClick={() => {
